@@ -39,7 +39,7 @@ public class PrescriptionDataAccess {
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Prescription WHERE prId="+ id);) {
                 while (rs.next()) {
                     st = new Prescription();
-                    st.setPrId(rs.getInt("tId"));
+                    st.setPrId(rs.getInt("prId"));
                     st.setPrTestResult(rs.getString("PrTestResult"));
                     st.setPrComment(rs.getString("PrComment"));
                     st.setPrDocument(rs.getString("PrDocument"));
@@ -110,7 +110,7 @@ public class PrescriptionDataAccess {
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
                     Statement stmt = conn.createStatement(); 
                     ) {
-                stmt.executeUpdate("UPDATE Prescription SET tName = '" +st.getPrTestResult()+ "', nic = '" + st.getPrComment()+ "', phoneNumber = '" + st.getPrDocument()+ "', uiId = '" + st.getApId()+ "' WHERE (prId = '" + st.getPrId()+"');");
+                stmt.executeUpdate("UPDATE Prescription SET prTestResult = '" +st.getPrTestResult()+ "', PrComment = '" + st.getPrComment()+ "', PrDocument = '" + st.getPrDocument()+ "', ApId = '" + st.getApId()+ "' WHERE (prId = '" + st.getPrId()+"');");
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();

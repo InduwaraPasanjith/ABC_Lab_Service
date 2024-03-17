@@ -10,28 +10,26 @@ import java.sql.Date;
  *
  * @author induwara
  */
-public class Patients {
+public class Patient {
     
     private int pId;
     private String pName;
     private String nic;
     private String phoneNumber;
     private String email;
-    private Date dob;
     private int uiId;
     
     
-    public Patients(){
+    public Patient(){
         
     }
 
-    public Patients(int pId, String pName, String nic, String phoneNumber, String email, Date dob, int uiId) {
+    public Patient(int pId, String pName, String nic, String phoneNumber, String email, int uiId) {
         this.pId = pId;
         this.pName = pName;
         this.nic = nic;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.dob = dob;
         this.uiId = uiId;
     }
 
@@ -73,14 +71,6 @@ public class Patients {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
     }
 
     public int getUiId() {

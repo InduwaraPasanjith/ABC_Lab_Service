@@ -6,6 +6,7 @@ com\mycompany\abc_lab_service\JakartaRestConfiguration.class
 resources\Model\Prescription.class
 resources\Model\Admin.class
 resources\Model\Technicians.class
+resources\Model\Login.class
 recources\DataAccess\UserInformationDataAccess.class
 recources\Controllers\PatientsController.class
 resources\Model\Patients.class
@@ -13,8 +14,10 @@ com\mycompany\abc_lab_service\resources\JakartaEE10Resource.class
 resources\Model\UserInformation.class
 recources\DataAccess\PatientsDataAccess.class
 recources\Controllers\AppoinmentControllers.class
+recources\DataAccess\LoginDataAccess.class
 recources\DataAccess\AdminDataAccess.class
 resources\Model\Appoinment.class
+recources\Controllers\LoginControllers.class
 recources\DataAccess\AppoinmentDataAccess.class
 recources\Controllers\AdminController.class
 recources\DataAccess\PrescriptionDataAccess.class

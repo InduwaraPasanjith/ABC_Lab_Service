@@ -17,7 +17,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.sql.SQLException;
 import recources.DataAccess.PatientsDataAccess;
-import resources.Model.Patients;
+import resources.Model.Patient;
 /**
  *
  * @author induwara
@@ -47,7 +47,7 @@ public class PatientsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudent(@PathParam("id") int id){ 
         try {
-        Patients student = new PatientsDataAccess().getPatients(id);
+        Patient student = new PatientsDataAccess().getPatients(id);
         
         if (student != null) {
                   return Response
@@ -68,7 +68,7 @@ public class PatientsController {
      @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addStudent(String json){ 
-        Patients Patient = gson.fromJson(json, Patients.class); 
+        Patient Patient = gson.fromJson(json, Patient.class); 
         new PatientsDataAccess().addPatients(Patient);
         return Response
                 .status(Response.Status.CREATED)
@@ -79,7 +79,7 @@ public class PatientsController {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateStudent(String json, @PathParam("id") int id){ 
-        Patients student = gson.fromJson(json, Patients.class);
+        Patient student = gson.fromJson(json, Patient.class);
         new PatientsDataAccess().updatePatients(student);
         return Response
                     .ok()

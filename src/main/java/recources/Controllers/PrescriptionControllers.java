@@ -65,11 +65,19 @@ public class PrescriptionControllers {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addStudent(String json){ 
-        Prescription Prescription = gson.fromJson(json, Prescription.class); 
-        new PrescriptionDataAccess().addPrescription(Prescription);
-        return Response
+        try{
+            Prescription Prescription = gson.fromJson(json, Prescription.class); 
+            new PrescriptionDataAccess().addPrescription(Prescription);
+            return Response
                 .status(Response.Status.CREATED)
                 .build();
+        }
+        catch(Exception e) {
+             return Response
+                .status(Response.Status.INTERNAL_SERVER_ERROR)
+                .build();
+        }
+        
     }
     
     @PUT

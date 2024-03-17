@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import resources.Model.Patients;
+import resources.Model.Patient;
 /**
  *
  * @author induwara
@@ -30,21 +30,20 @@ public class PatientsDataAccess {
             }
         }
      
-      public Patients getPatients(int id) throws SQLException {
-        Patients st = null;
+      public Patient getPatients(int id) throws SQLException {
+        Patient st = null;
          try {
 
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Patients WHERE pId="+ id);) {
                 while (rs.next()) {
-                    st = new Patients();
+                    st = new Patient();
                     st.setpId(rs.getInt("pId"));
                     st.setpName(rs.getString("pName"));
                     st.setNic(rs.getString("nic"));
                     st.setPhoneNumber(rs.getString("phoneNumber"));
                     st.setEmail(rs.getString("email"));
-                    st.setDob(rs.getDate("dob"));
                     st.setUiId(rs.getInt("uiId"));
                     break;
                 }
@@ -62,21 +61,20 @@ public class PatientsDataAccess {
     }
     
       
-      public List<Patients> getPatients() {
-        List<Patients> Patients = new ArrayList<>();
+      public List<Patient> getPatients() {
+        List<Patient> Patients = new ArrayList<>();
          try {
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Patients");) {
                 while (rs.next()) {
-                    Patients st = new Patients();
+                    Patient st = new Patient();
                    //st = new Technicians();
                     st.setpId(rs.getInt("pId"));
                     st.setpName(rs.getString("pName"));
                     st.setNic(rs.getString("Nic"));
                     st.setPhoneNumber(rs.getString("phoneNumber"));
                     st.setEmail(rs.getString("email"));
-                    st.setDob(rs.getDate("dob"));
                     st.setUiId(rs.getInt("uiId"));
                     Patients.add(st);
                 }
@@ -91,13 +89,13 @@ public class PatientsDataAccess {
         return Patients;
     }
       
-       public boolean addPatients(Patients st) {
+       public boolean addPatients(Patient st) {
         try {
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
                     Statement stmt = conn.createStatement(); 
                     ) {
-                stmt.executeUpdate("INSERT INTO Patients (pName, nic, phoneNumber, email, dob , uiId) "
-                        + "VALUES ('"+ st.getpName()+"','"+ st.getNic()+"','"+ st.getPhoneNumber()+"', '"+ st.getEmail()+"', '"+ st.getDob()+"', '"+ st.getUiId()+"');");
+                stmt.executeUpdate("INSERT INTO Patients (pName, nic, phoneNumber, email , uiId) "
+                        + "VALUES ('"+ st.getpName()+"','"+ st.getNic()+"','"+ st.getPhoneNumber()+"', '"+ st.getEmail()+"', '"+ st.getUiId()+"');");
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -109,12 +107,12 @@ public class PatientsDataAccess {
         return false;
     }
        
-       public boolean updatePatients(Patients st) {
+       public boolean updatePatients(Patient st) {
         try {
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
                     Statement stmt = conn.createStatement(); 
                     ) {
-                stmt.executeUpdate("UPDATE Patients SET pName = '" +st.getpName()+ "', nic = '" + st.getNic()+ "', phoneNumber = '" + st.getPhoneNumber()+ "', email = '" + st.getEmail()+ "',dob = '" + st.getDob()+ "', uiId = '" + st.getUiId()+ "' WHERE (pId = '" + st.getpId() +"');");
+                stmt.executeUpdate("UPDATE Patients SET pName = '" +st.getpName()+ "', nic = '" + st.getNic()+ "', phoneNumber = '" + st.getPhoneNumber()+ "', email = '" + st.getEmail()+ "', uiId = '" + st.getUiId()+ "' WHERE (pId = '" + st.getpId() +"');");
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
