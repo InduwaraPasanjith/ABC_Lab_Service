@@ -105,6 +105,8 @@ public class UserInformationDataAccess {
         return false;
     }
          
+         
+         
              public boolean updateUserInformation(UserInformation st) {
         try {
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 

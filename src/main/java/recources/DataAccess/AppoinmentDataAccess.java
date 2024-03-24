@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import resources.Model.Appoinment;
+
 /**
  *
  * @author induwara
@@ -41,6 +42,8 @@ public class AppoinmentDataAccess {
                     st.setApId(rs.getInt("apId"));
                     st.setApDetails(rs.getString("apDetails"));
                     st.setApDocuments(rs.getString("apDocuments"));
+                    st.setApType(rs.getString("apType"));
+                    st.setRecdoc(rs.getString("redcoc"));
                     st.setpId(rs.getInt("pId"));
                     break;
                 }
@@ -70,6 +73,8 @@ public class AppoinmentDataAccess {
                     st.setApId(rs.getInt("apId"));
                     st.setApDetails(rs.getString("apDetails"));
                     st.setApDocuments(rs.getString("apDocuments"));
+                    st.setApType(rs.getString("apType"));
+                    st.setRecdoc(rs.getString("recdoc"));
                     st.setpId(rs.getInt("pId"));
                     Appoinments.add(st);
                 }
@@ -89,8 +94,8 @@ public class AppoinmentDataAccess {
             try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
                     Statement stmt = conn.createStatement(); 
                     ) {
-                stmt.executeUpdate("INSERT INTO Appoinment (apDetails, apDocuments, pId) "
-                        + "VALUES ('"+ st.getApDetails()+"','"+ st.getApDocuments()+"','"+ st.getpId()+"');");
+                stmt.executeUpdate("INSERT INTO Appoinment (recdoc, apType, apDetails, apDocuments, pId) "
+                        + "VALUES ('"+ st.getApType()+"','"+ st.getRecdoc()+"','"+ st.getApDetails()+"','"+ st.getApDocuments()+"','"+ st.getpId()+"');");
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();

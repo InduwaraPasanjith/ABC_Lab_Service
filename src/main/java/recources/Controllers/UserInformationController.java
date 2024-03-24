@@ -17,6 +17,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.sql.SQLException;
 import recources.DataAccess.UserInformationDataAccess;
+import static resources.EmailSend.Email.sendEmail;
+import static resources.EmailSend.EmailFormat.emailBody;
+import static resources.EmailSend.PasswordGenerator.generateRandomPassword;
 import resources.Model.UserInformation;
 /**
  *
@@ -65,7 +68,12 @@ public UserInformationController() {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addStudent(String json){ 
+        String message = "";
         UserInformation UserInformations = gson.fromJson(json, UserInformation.class); 
+        String password = generateRandomPassword(8);
+        String emailBody = emailBody(message,UserInformations.getEmail(),password);
+        sendEmail(UserInformations.getEmail(),"Patient Login Info",emailBody);
+        UserInformations.setPassword(password); 
         new UserInformationDataAccess().addUserInformation(UserInformations);
         return Response
                 .status(Response.Status.CREATED)

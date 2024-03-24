@@ -17,7 +17,12 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.sql.SQLException;
 import recources.DataAccess.TechniciansDataAccess;
+import recources.DataAccess.UserInformationDataAccess;
+import static resources.EmailSend.Email.sendEmail;
+import static resources.EmailSend.EmailFormat.emailBody;
+import static resources.EmailSend.PasswordGenerator.generateRandomPassword;
 import resources.Model.Technicians;
+import resources.Model.UserInformation;
 /**
  *
  * @author induwara
@@ -65,7 +70,18 @@ public class TechnicianController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addStudent(String json){ 
+        String message = "";
         Technicians Technician = gson.fromJson(json, Technicians.class); 
+        UserInformation UserInfor =null;
+        String password = generateRandomPassword(8);
+        String emailBody = emailBody(message,Technician.getEmail(),password);
+        sendEmail(Technician.getEmail(),"Patient Login Info",emailBody);
+        UserInfor = new UserInformation();
+        UserInfor.setEmail(Technician.getEmail());
+        UserInfor.setPassword(password); 
+        UserInfor.setUserName(Technician.gettName()); 
+        UserInfor.setrId(3); 
+        new UserInformationDataAccess().addUserInformation(UserInfor);
         new TechniciansDataAccess().addTechnician(Technician);
         return Response
                 .status(Response.Status.CREATED)

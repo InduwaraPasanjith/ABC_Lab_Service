@@ -17,7 +17,13 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.sql.SQLException;
 import recources.DataAccess.PatientsDataAccess;
+import recources.DataAccess.UserInformationDataAccess;
+import static resources.EmailSend.Email.sendEmail;
+import static resources.EmailSend.EmailFormat.emailBody;
+import static resources.EmailSend.PasswordGenerator.generateRandomPassword;
 import resources.Model.Patient;
+import resources.Model.UserInformation;
+//import resources.DataAccess.
 /**
  *
  * @author induwara
@@ -68,7 +74,18 @@ public class PatientsController {
      @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addStudent(String json){ 
+        String message = "";
+        UserInformation UserInfor =null;
         Patient Patient = gson.fromJson(json, Patient.class); 
+        String password = generateRandomPassword(8);
+        String emailBody = emailBody(message,Patient.getEmail(),password);
+        sendEmail(Patient.getEmail(),"Patient Login Info",emailBody);
+        UserInfor = new UserInformation();
+        UserInfor.setEmail(Patient.getEmail());
+        UserInfor.setPassword(password); 
+        UserInfor.setUserName(Patient.getpName()); 
+        UserInfor.setrId(3); 
+        new UserInformationDataAccess().addUserInformation(UserInfor);
         new PatientsDataAccess().addPatients(Patient);
         return Response
                 .status(Response.Status.CREATED)
@@ -95,4 +112,6 @@ public class PatientsController {
             .ok()
             .build();
     }
+
+    
 }

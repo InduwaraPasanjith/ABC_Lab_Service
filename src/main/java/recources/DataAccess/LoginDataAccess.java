@@ -49,6 +49,7 @@ public class LoginDataAccess {
                                 user.setuId(r.getInt("uId"));
                                 user.setUserName(r.getString("userName"));
                                 user.setEmail( r.getString("email"));
+                                user.setrId(r.getInt("rId"));
                             }
                     } catch (SQLException e) {
                         System.err.print(e);
