@@ -17,9 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  * @author induwara
  */
 public class LoginDataAccess {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
     
     public LoginDataAccess() {
     try {
@@ -29,7 +26,8 @@ public class LoginDataAccess {
     }
    public UserInformation login(Login login) throws SQLException, JsonProcessingException {
         UserInformation user = null;
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+        DBConfig db =  DBConfig.getConn();
+        try (Connection conn = db.getConnection(); 
                 Statement stmt = conn.createStatement(); ){
                 String userName = login.getUserName();
                 String password = login.getPassword();
@@ -40,7 +38,7 @@ public class LoginDataAccess {
                 boolean hasRecords = count > 0;
                 if (hasRecords) {
                     user = new UserInformation();
-                    try (Connection conn1 = DriverManager.getConnection(DB_URL, USER, PASS); 
+                    try (Connection conn1 = db.getConnection(); 
                         Statement stmt1 = conn1.createStatement(); ){
                             String check = "SELECT * FROM userinformation WHERE email= '"+ userName + "' and password = '"+ password +"' ;";
                             ResultSet r = stmt1.executeQuery(check );

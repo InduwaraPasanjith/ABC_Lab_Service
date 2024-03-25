@@ -20,11 +20,6 @@ import resources.Model.Admin;
 
 public class AdminDataAccess {
     
-        static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
-    
-    
         public AdminDataAccess() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -35,8 +30,8 @@ public class AdminDataAccess {
      public Admin getAdmin(int id) throws SQLException {
         Admin st = null;
          try {
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn = db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Admin WHERE aId="+ id);) {
                 while (rs.next()) {
@@ -65,7 +60,8 @@ public class AdminDataAccess {
      public List<Admin> getAdmin() {
         List<Admin> Admin = new ArrayList<>();
          try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+            try (Connection conn = db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Admin");) {
                 while (rs.next()) {

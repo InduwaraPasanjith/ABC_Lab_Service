@@ -11,17 +11,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import static resources.EmailSend.Email.sendEmail;
+import static resources.EmailSend.EmailFormat.emailBodyPayment;
 import resources.Model.Appoinment;
+import resources.Model.Patient;
+import resources.Model.UserInformation;
 
 /**
  *
  * @author induwara
  */
 public class AppoinmentDataAccess {
-    
-    static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
     
      public AppoinmentDataAccess() {
         try {
@@ -33,8 +33,8 @@ public class AppoinmentDataAccess {
  public Appoinment getAppoinment(int id) throws SQLException {
         Appoinment st = null;
          try {
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn = db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Appoinment WHERE apId="+ id);) {
                 while (rs.next()) {
@@ -63,7 +63,8 @@ public class AppoinmentDataAccess {
      public List<Appoinment> getAppoinment() {
         List<Appoinment> Appoinments = new ArrayList<>();
          try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection();  
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Appoinment");) {
                 while (rs.next()) {
@@ -91,11 +92,16 @@ public class AppoinmentDataAccess {
      
       public boolean addAppoinment(Appoinment st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            String msg = "";
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection();  
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("INSERT INTO Appoinment (recdoc, apType, apDetails, apDocuments, pId) "
                         + "VALUES ('"+ st.getApType()+"','"+ st.getRecdoc()+"','"+ st.getApDetails()+"','"+ st.getApDocuments()+"','"+ st.getpId()+"');");
+                UserInformationDataAccess da = new UserInformationDataAccess();
+                UserInformation pat = da.getUserInformation(st.getpId());
+                sendEmail(pat.getEmail(),"Patient Appoinment Payment",emailBodyPayment(msg));
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -109,7 +115,8 @@ public class AppoinmentDataAccess {
      
        public boolean deleteAppoinment(int id) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection();  
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("DELETE FROM Appoinment WHERE (apId = '"+ id + "');");

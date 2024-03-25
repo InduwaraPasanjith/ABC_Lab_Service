@@ -17,4 +17,10 @@ public class EmailFormat {
                     + "Please keep this information secure.";
         
     }
+    
+    public static String emailBodyPayment(String msg) {
+        return msg = "Hello,\n\n"
+                    + "\"Your credit card payment of Rs.1200 was successful. Thank you for your payment!";
+        
+    }
 }

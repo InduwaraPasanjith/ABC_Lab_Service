@@ -18,9 +18,6 @@ import resources.Model.UserInformation;
  */
 public class UserInformationDataAccess {
     
-    static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
     
     
         public UserInformationDataAccess() {
@@ -34,10 +31,10 @@ public class UserInformationDataAccess {
          public UserInformation getUserInformation(int id) throws SQLException {
         UserInformation st = null;
          try {
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
-                    ResultSet rs = stmt.executeQuery("SELECT * FROM UserInformation WHERE tId="+ id);) {
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM UserInformation WHERE uId="+ id);) {
                 while (rs.next()) {
                     st = new UserInformation();
                     st.setuId(rs.getInt("uId"));
@@ -63,7 +60,8 @@ public class UserInformationDataAccess {
          public List<UserInformation> getUserInformation() {
         List<UserInformation> UserInformation = new ArrayList<>();
          try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM UserInformation");) {
                 while (rs.next()) {
@@ -89,7 +87,8 @@ public class UserInformationDataAccess {
          
          public boolean addUserInformation(UserInformation st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("INSERT INTO UserInformation (userName, password, email, rId) "
@@ -109,7 +108,8 @@ public class UserInformationDataAccess {
          
              public boolean updateUserInformation(UserInformation st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection();
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("UPDATE UserInformation SET userName = '" +st.getUserName()+ "', password = '" + st.getPassword()+ "', email = '" + st.getEmail()+"', rId = '" + st.getrId()+ "' WHERE (uId = '" + st.getuId() +"');");
@@ -126,7 +126,8 @@ public class UserInformationDataAccess {
              
              public boolean deleteUserInformation(int id) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("DELETE FROM UserInformation WHERE (uid = '"+ id + "');");

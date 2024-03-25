@@ -6,6 +6,7 @@ resources\Model\Patient.class
 resources\EmailSend\PasswordGenerator.class
 resources\EmailSend\Email.class
 resources\Model\Admin.class
+recources\DataAccess\DBConfig.class
 resources\Model\Login.class
 com\mycompany\abc_lab_service\resources\JakartaEE10Resource.class
 recources\Controllers\AppoinmentControllers.class

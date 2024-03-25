@@ -19,9 +19,7 @@ import resources.Model.Patient;
  */
 public class PatientsDataAccess {
     
-       static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
+   
     
      public PatientsDataAccess() {
         try {
@@ -33,8 +31,8 @@ public class PatientsDataAccess {
       public Patient getPatients(int id) throws SQLException {
         Patient st = null;
          try {
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Patients WHERE pId="+ id);) {
                 while (rs.next()) {
@@ -64,7 +62,8 @@ public class PatientsDataAccess {
       public List<Patient> getPatients() {
         List<Patient> Patients = new ArrayList<>();
          try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Patients");) {
                 while (rs.next()) {
@@ -91,7 +90,8 @@ public class PatientsDataAccess {
       
        public boolean addPatients(Patient st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("INSERT INTO Patients (pName, nic, phoneNumber, email , uiId) "
@@ -109,7 +109,8 @@ public class PatientsDataAccess {
        
        public boolean updatePatients(Patient st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("UPDATE Patients SET pName = '" +st.getpName()+ "', nic = '" + st.getNic()+ "', phoneNumber = '" + st.getPhoneNumber()+ "', email = '" + st.getEmail()+ "', uiId = '" + st.getUiId()+ "' WHERE (pId = '" + st.getpId() +"');");
@@ -126,7 +127,8 @@ public class PatientsDataAccess {
        
        public boolean deletePatients(int id) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn = db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("DELETE FROM Patients WHERE (pid = '"+ id + "');");

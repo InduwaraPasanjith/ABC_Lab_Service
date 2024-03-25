@@ -19,10 +19,6 @@ import resources.Model.Technicians;
  */
 public class TechniciansDataAccess {
     
-    static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
-    
     
         public TechniciansDataAccess() {
         try {
@@ -35,8 +31,8 @@ public class TechniciansDataAccess {
     public Technicians getTechnician(int id) throws SQLException {
         Technicians st = null;
          try {
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+             try (Connection conn =  db.getConnection();  
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Technician WHERE tId="+ id);) {
                 while (rs.next()) {
@@ -65,7 +61,8 @@ public class TechniciansDataAccess {
     public List<Technicians> getTechnicians() {
         List<Technicians> Technicians = new ArrayList<>();
          try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+             try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Technician");) {
                 while (rs.next()) {
@@ -92,7 +89,8 @@ public class TechniciansDataAccess {
     
     public boolean addTechnician(Technicians st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+             try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("INSERT INTO Technician (tName, nic, phoneNumber, email, uiId) "
@@ -110,7 +108,8 @@ public class TechniciansDataAccess {
    
     public boolean updateTechnician(Technicians st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+             try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("UPDATE Technician SET tName = '" +st.gettName()+ "', nic = '" + st.getNic()+ "', phoneNumber = '" + st.getPhoneNumber()+ "', email = '" + st.getEmail()+ "', uiId = '" + st.getUiId()+ "' WHERE (tId = '" + st.gettId() +"');");
@@ -127,7 +126,8 @@ public class TechniciansDataAccess {
     
     public boolean deleteTechnician(int id) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+             try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("DELETE FROM Technician WHERE (tid = '"+ id + "');");

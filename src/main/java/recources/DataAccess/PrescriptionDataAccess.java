@@ -17,11 +17,7 @@ import resources.Model.Prescription;
  */
 public class PrescriptionDataAccess {
     
-    static final String DB_URL = "jdbc:mysql://localhost:3306/abc_lab";
-    static final String USER = "root";
-    static final String PASS = "";
-    
-    
+      
         public PrescriptionDataAccess() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -33,8 +29,8 @@ public class PrescriptionDataAccess {
         public Prescription getPrescription(int id) throws SQLException {
         Prescription st = null;
          try {
-
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection();   
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Prescription WHERE prId="+ id);) {
                 while (rs.next()) {
@@ -63,7 +59,8 @@ public class PrescriptionDataAccess {
         public List<Prescription> getPrescription() {
         List<Prescription> Prescription = new ArrayList<>();
          try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+             DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ResultSet rs = stmt.executeQuery("SELECT * FROM Prescription");) {
                 while (rs.next()) {
@@ -89,7 +86,8 @@ public class PrescriptionDataAccess {
         
         public boolean addPrescription(Prescription st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection();
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("INSERT INTO Prescription (PrTestResult, PrComment, PrDocument, apId) "
@@ -107,7 +105,8 @@ public class PrescriptionDataAccess {
         
          public boolean updatePrescription(Prescription st) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("UPDATE Prescription SET prTestResult = '" +st.getPrTestResult()+ "', PrComment = '" + st.getPrComment()+ "', PrDocument = '" + st.getPrDocument()+ "', ApId = '" + st.getApId()+ "' WHERE (prId = '" + st.getPrId()+"');");
@@ -124,7 +123,8 @@ public class PrescriptionDataAccess {
          
           public boolean deletePrescription(int id) {
         try {
-            try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); 
+            DBConfig db =  DBConfig.getConn();
+            try (Connection conn =  db.getConnection(); 
                     Statement stmt = conn.createStatement(); 
                     ) {
                 stmt.executeUpdate("DELETE FROM Prescription WHERE (prid = '"+ id + "');");
